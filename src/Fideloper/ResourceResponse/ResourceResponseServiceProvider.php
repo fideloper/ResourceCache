@@ -35,10 +35,6 @@ class ResourceResponseServiceProvider extends ServiceProvider {
 			// Replace Response "facade" (which isn't a Facade)
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
 			$loader->alias('Response', 'Fideloper\ResourceResponse\Facades\Response');
-
-			// Swap Request Facade with own class
-			$request = new Http\Request;
-			\Request::swap($request->createFromGlobals());
 		});
 
 	}

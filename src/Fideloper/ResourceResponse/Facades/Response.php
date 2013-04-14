@@ -52,9 +52,16 @@ class Response extends BaseResponse {
     */
     protected function setCache(ResourceInterface $resource, HttpResponse $response)
     {
+        $lastModified = $resource->updated_at;
+
+        if( is_string($lastModified) )
+        {
+            $lastModified = new \DateTime('@'.strtotime($lastModified));
+        }
+
         $response->setCache(array(
             'etag' => $resource->getEtag(),
-            'last_modified' => new \DateTime('@'.strtotime($resource->updated_at))
+            'last_modified' => $lastModified
         ));
 
         return $response;

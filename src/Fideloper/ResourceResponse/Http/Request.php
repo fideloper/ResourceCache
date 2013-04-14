@@ -85,7 +85,7 @@ class Request extends BaseRequest {
 
             if($etag !== $resource->getEtag() )
             {
-                return true;
+                return false;
             }
         }
 
@@ -97,11 +97,11 @@ class Request extends BaseRequest {
         {
             if( strtotime($ifModifiedSince) > strtotime($resource->updated_at) )
             {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
 }
