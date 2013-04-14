@@ -1,7 +1,7 @@
-<?php namespace Fideloper\ResourceResponse\Http;
+<?php namespace Fideloper\ResourceCache\Http;
 
 use Illuminate\Http\Request as BaseRequest;
-use Fideloper\ResourceResponse\Resource\ResourceInterface;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
 
 class Request extends BaseRequest {
 
@@ -14,7 +14,7 @@ class Request extends BaseRequest {
     * ETag take priority over Last Modified for Validation.
     *
     * @todo  handle `If-None-Match: *`
-    * @param Fideloper\ResourceResponse\Resource\ResourceInterface
+    * @param Fideloper\ResourceCache\Resource\ResourceInterface
     * @return bool
     */
     public function wasModified(ResourceInterface $resource)

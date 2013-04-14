@@ -1,6 +1,6 @@
 {
-    "name": "fideloper/resource-response",
-    "description": "Responses from Eloquent Resources",
+    "name": "fideloper/ResourceCache",
+    "description": "Handle HTTP validation Caching using If-* Headers",
     "authors": [
         {
             "name": "Chris Fidao",
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Fideloper\\ResourceResponse": "src/"
+            "Fideloper\\ResourceCache": "src/"
         }
     },
     "minimum-stability": "dev"

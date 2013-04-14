@@ -1,8 +1,8 @@
-<?php namespace Fideloper\ResourceResponse;
+<?php namespace Fideloper\ResourceCache;
 
 use Illuminate\Support\ServiceProvider;
 
-class ResourceResponseServiceProvider extends ServiceProvider {
+class ResourceCacheServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -34,7 +34,7 @@ class ResourceResponseServiceProvider extends ServiceProvider {
 		{
 			// Replace Response "facade" (which isn't a Facade)
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('Response', 'Fideloper\ResourceResponse\Facades\Response');
+			$loader->alias('Response', 'Fideloper\ResourceCache\Facades\Response');
 		});
 
 	}
