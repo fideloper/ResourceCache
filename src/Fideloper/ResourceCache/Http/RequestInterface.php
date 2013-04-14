@@ -10,6 +10,6 @@ interface RequestInterface {
 
     public function getEtags();
 
-    public function getHeader();
+    public function getHeader($header);
 
 }

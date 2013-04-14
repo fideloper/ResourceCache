@@ -1,6 +1,7 @@
 <?php namespace Fideloper\ResourceCache\Http;
 
 use Symfony\Component\HttpFoundation\Request;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
 
 class SymfonyRequest implements RequestInterface {
 
