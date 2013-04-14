@@ -1,9 +1,16 @@
-<?php namespace Fideloper\ResourceResponse\Http;
+<?php namespace Fideloper\ResourceCache\Http;
 
-use Illuminate\Http\Request as BaseRequest;
-use Fideloper\ResourceResponse\Resource\ResourceInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
 
-class Request extends BaseRequest {
+class SymfonyRequest implements RequestInterface {
+
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
     * Determine if resource was modified since the
@@ -14,7 +21,7 @@ class Request extends BaseRequest {
     * ETag take priority over Last Modified for Validation.
     *
     * @todo  handle `If-None-Match: *`
-    * @param Fideloper\ResourceResponse\Resource\ResourceInterface
+    * @param Fideloper\ResourceCache\Resource\ResourceInterface
     * @return bool
     */
     public function wasModified(ResourceInterface $resource)
@@ -44,7 +51,7 @@ class Request extends BaseRequest {
         }
 
         // Second, Modification Date Validation
-        $ifModifiedSince = $this->header('if-modified-since');
+        $ifModifiedSince = $this->getHeader('if-modified-since');
 
         if( $ifModifiedSince && $usesEtags === false )
         {
@@ -77,7 +84,7 @@ class Request extends BaseRequest {
         $usesEtags = false;
 
         // First, ETag Validation
-        $etag = str_replace( '"', '', Request::header('if-match') );
+        $etag = str_replace( '"', '', $this->getHeader('if-match') );
 
         if( $etag )
         {
@@ -91,7 +98,7 @@ class Request extends BaseRequest {
 
 
         // Second, Modificatio Date Validation
-        $ifUnmodifiedSince = $this->header('if-unmodified-since');
+        $ifUnmodifiedSince = $this->getHeader('if-unmodified-since');
 
         if( $ifUnmodifiedSince && $usesEtags === false )
         {
@@ -102,6 +109,27 @@ class Request extends BaseRequest {
         }
 
         return true;
+    }
+
+    /**
+    * Get ETags from Request
+    *
+    * @return array   Array of ETags
+    */
+    public function getEtags()
+    {
+        return $this->request->getEtags();
+    }
+
+    /**
+    * Get specific HTTP header from request
+    *
+    * @param string   HTTP header to retrieve
+    * @return mixed   Result of header
+    */
+    public function getHeader($header)
+    {
+        return $this->request->header($header);
     }
 
 }

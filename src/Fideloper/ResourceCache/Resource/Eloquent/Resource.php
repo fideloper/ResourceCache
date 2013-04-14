@@ -1,7 +1,7 @@
-<?php namespace Fideloper\ResourceResponse\Eloquent;
+<?php namespace Fideloper\ResourceCache\Resource\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Fideloper\ResourceResponse\Resource\ResourceInterface;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
 
 class Resource extends Model implements ResourceInterface  {
 

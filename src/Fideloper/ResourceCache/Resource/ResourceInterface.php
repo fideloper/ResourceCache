@@ -1,4 +1,4 @@
-<?php namespace Fideloper\ResourceResponse\Resource;
+<?php namespace Fideloper\ResourceCache\Resource;
 
 interface ResourceInterface {
 

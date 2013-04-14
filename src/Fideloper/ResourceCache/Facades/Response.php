@@ -1,10 +1,10 @@
-<?php namespace Fideloper\ResourceResponse\Facades;
+<?php namespace Fideloper\ResourceCache\Facades;
 
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\Facades\Response as BaseResponse;
-use Fideloper\ResourceResponse\Resource\ResourceInterface;
-use Fideloper\ResourceResponse\Format\FormatInterface;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
+use Fideloper\ResourceCache\Format\FormatInterface;
 
 class Response extends BaseResponse {
 
@@ -12,7 +12,7 @@ class Response extends BaseResponse {
     /**
     * Return JSON response from resource
     *
-    * @param Fideloper\ResourceResponse\Resource\ResourceInterface
+    * @param Fideloper\ResourceCache\Resource\ResourceInterface
     * @param int    HTTP status code
     * @param array  Additional headers
     * @return Symfony\Component\HttpFoundation\JsonResponse
@@ -29,7 +29,7 @@ class Response extends BaseResponse {
     /**
     * Return HTML response from resource
     *
-    * @param Fideloper\ResourceResponse\Resource\ResourceInterface
+    * @param Fideloper\ResourceCache\Resource\ResourceInterface
     * @param string     HTML string output (result of View::make() or similar)
     * @param int    HTTP status code
     * @param array  Additional headers
@@ -46,7 +46,7 @@ class Response extends BaseResponse {
     /**
     * Set cache settings (simple for now)
     *
-    * @param Fideloper\ResourceResponse\Resource\ResourceInterface
+    * @param Fideloper\ResourceCache\Resource\ResourceInterface
     * @param Symfony\Component\HttpFoundation\Response
     * @return Symfony\Component\HttpFoundation\Response
     */

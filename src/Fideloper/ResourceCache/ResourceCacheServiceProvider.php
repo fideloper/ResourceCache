@@ -1,8 +1,8 @@
-<?php namespace Fideloper\ResourceResponse;
+<?php namespace Fideloper\ResourceCache;
 
 use Illuminate\Support\ServiceProvider;
 
-class ResourceResponseServiceProvider extends ServiceProvider {
+class ResourceCacheServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -28,13 +28,20 @@ class ResourceResponseServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$app = $this->app;
-
-		$app->booting(function() use ($app)
+		$this->app['resourcerequest'] = $this->app->share(function($app)
 		{
-			// Replace Response "facade" (which isn't a Facade)
+			return new Http\SymfonyRequest( $app['request'] );
+		});
+
+		$this->app->booting(function()
+		{
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('Response', 'Fideloper\ResourceResponse\Facades\Response');
+
+			// Load ResourceRequest Facade
+			$loader->alias('ResourceRequest', 'Fideloper\ResourceCache\Facades\ResourceRequest');
+
+			// Replace Response "facade" (which isn't a Facade)
+			$loader->alias('Response', 'Fideloper\ResourceCache\Facades\Response');
 		});
 
 	}
