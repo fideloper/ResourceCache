@@ -75,7 +75,7 @@ class SymfonyRequestTest extends TestCase {
     public function testWasModifiedIsModified()
     {
         // Mock Request
-        $modified_since = strtotime('1 March 2013'); // Checking if modified since March 1 (it was - last updated March 3rd)
+        $modified_since = '1 March 2013'; // Checking if modified since March 1 (it was - last updated March 3rd)
         $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
         $mockRequest->shouldReceive('retrieveItem')->once()->andReturn( $modified_since );
         $mockRequest->shouldReceive('getETags')->once()->andReturn(array());
@@ -96,7 +96,7 @@ class SymfonyRequestTest extends TestCase {
     public function testWasModifiedIsNotModified()
     {
         // Mock Request
-        $modified_since = strtotime('3 March 2013'); // Checking if modified since March 3 (it wasn't - last updated March 1st)
+        $modified_since = '3 March 2013'; // Checking if modified since March 3 (it wasn't - last updated March 1st)
         $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
         $mockRequest->shouldReceive('retrieveItem')->once()->andReturn( $modified_since );
         $mockRequest->shouldReceive('getETags')->once()->andReturn(array());
