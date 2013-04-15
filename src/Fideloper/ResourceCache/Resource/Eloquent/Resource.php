@@ -31,6 +31,7 @@ class Resource extends Model implements ResourceInterface  {
     {
         $etag = $this->getTable() . $this->getKey();
 
+        // Throw exception if not using timestamps?
         if ( $this->usesTimestamps() )
         {
             $datetime = $this->updated_at;
@@ -54,6 +55,11 @@ class Resource extends Model implements ResourceInterface  {
     */
     public function getLastUpdated()
     {
+        if ( ! $this->usesTimestamps() )
+        {
+            return false; // Throw Exception?
+        }
+
         if( is_string($this->updated_at) )
         {
             return new \DateTime( '@'.strtotime($this->updated_at) );
