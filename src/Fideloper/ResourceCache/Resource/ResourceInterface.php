@@ -4,4 +4,6 @@ interface ResourceInterface {
 
     public function getEtag($regen=false);
 
+    public function getLastUpdated();
+
 }

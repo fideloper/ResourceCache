@@ -1,13 +1,10 @@
-<?php namespace Fideloper\ResourceCache\Facades;
+<?php namespace Fideloper\ResourceCache\Http;
 
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Illuminate\Support\Facades\Response as BaseResponse;
 use Fideloper\ResourceCache\Resource\ResourceInterface;
-use Fideloper\ResourceCache\Format\FormatInterface;
 
-class Response extends BaseResponse {
-
+class SymfonyResponse implements ResponseInterface {
 
     /**
     * Return JSON response from resource
@@ -17,14 +14,14 @@ class Response extends BaseResponse {
     * @param array  Additional headers
     * @return Symfony\Component\HttpFoundation\JsonResponse
     */
-    public static function asJson(ResourceInterface $resource, $status = 200, array $headers = array())
+    public function asJson(ResourceInterface $resource, $status = 200, array $headers = array())
     {
-        return self::instance()->setCache(
+        return $this->setCache(
             $resource,
             new JsonResponse($resource->toArray(), $status, $headers)
         );
-
     }
+
 
     /**
     * Return HTML response from resource
@@ -35,13 +32,14 @@ class Response extends BaseResponse {
     * @param array  Additional headers
     * @return Symfony\Component\HttpFoundation\Response
     */
-    public static function asHtml(ResourceInterface $resource, $output, $status = 200, array $headers = array())
+    public function asHtml(ResourceInterface $resource, $output, $status = 200, array $headers = array())
     {
-        return self::instance()->setCache(
+        return $this->setCache(
             $resource,
             new HttpResponse($output, $status, $headers)
         );
     }
+
 
     /**
     * Set cache settings (simple for now)
@@ -52,23 +50,12 @@ class Response extends BaseResponse {
     */
     protected function setCache(ResourceInterface $resource, HttpResponse $response)
     {
-        $lastModified = $resource->updated_at;
-
-        if( is_string($lastModified) )
-        {
-            $lastModified = new \DateTime('@'.strtotime($lastModified));
-        }
-
         $response->setCache(array(
             'etag' => $resource->getEtag(),
-            'last_modified' => $lastModified
+            'last_modified' => $resource->getLastUpdated()
         ));
 
         return $response;
     }
 
-    public static function instance()
-    {
-        return new static;
-    }
 }

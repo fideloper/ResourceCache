@@ -47,4 +47,19 @@ class Resource extends Model implements ResourceInterface  {
         return md5( $etag );
     }
 
+    /**
+    * Return last updated date
+    *
+    * @return DateTime   Date and Time resource was last updated
+    */
+    public function getLastUpdated()
+    {
+        if( is_string($this->updated_at) )
+        {
+            return new \DateTime( '@'.strtotime($this->updated_at) );
+        }
+
+        return $this->updated_at;
+    }
+
 }
