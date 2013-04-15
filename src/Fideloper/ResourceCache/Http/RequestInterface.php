@@ -8,8 +8,4 @@ interface RequestInterface {
 
     public function wasNotModified(ResourceInterface $resource);
 
-    public function getEtags();
-
-    public function getHeader($header);
-
 }
