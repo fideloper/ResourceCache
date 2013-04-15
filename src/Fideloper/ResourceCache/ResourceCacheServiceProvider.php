@@ -28,20 +28,24 @@ class ResourceCacheServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		// Bind Resource objects to App IoC
 		$this->app['resourcerequest'] = $this->app->share(function($app)
 		{
 			return new Http\SymfonyRequest( $app['request'] );
 		});
 
+		$this->app['resourceresponse'] = $this->app->share(function($app)
+		{
+			return new Http\SymfonyResponse;
+		});
+
+		// Load Facade Aliases
 		$this->app->booting(function()
 		{
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-			// Load ResourceRequest Facade
 			$loader->alias('ResourceRequest', 'Fideloper\ResourceCache\Facades\ResourceRequest');
-
-			// Replace Response "facade" (which isn't a Facade)
-			$loader->alias('Response', 'Fideloper\ResourceCache\Facades\Response');
+			$loader->alias('ResourceResponse', 'Fideloper\ResourceCache\Facades\ResourceResponse');
 		});
 
 	}
