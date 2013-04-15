@@ -111,7 +111,55 @@ class SymfonyRequestTest extends TestCase {
         $this->assertFalse( $symReq->wasModified($mockResource), 'Resource was NOT modified since March 3 (modified March 1)' );
     }
 
-    public function testWasNotModified()
+    /*
+    * Does not match an ETag and so never used `If-Unmodified-Since` logic
+    */
+    public function testWasNotModifiedNoMatchEtag()
+    {
+        // Mock Request
+        $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-match')->andReturn('"'.md5('example1').'"');
+
+        // Mock Resource
+        $mockResource = m::Mock('Fideloper\ResourceCache\Resource\Eloquent\Resource');
+        $mockResource->shouldReceive('getEtag')->once()->andReturn( md5("won't match this") );
+
+        $symReq = new SymfonyRequest( $mockRequest );
+
+        $this->assertFalse( $symReq->wasNotModified($mockResource), 'If-Match ETag does not match resources ETag, so was modified.' );
+    }
+
+    /*
+    * Does match an ETag, but still does not use `If-Unmodified-Since` as per logic (spec unspecified)
+    */
+    public function testWasNotModifiedMatchEtag()
+    {
+        // Mock Request
+        $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-match')->andReturn('"'.md5('example1').'"');
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-unmodified-since')->andReturn('1 March 2013');
+
+        // Mock Resource
+        $mockResource = m::Mock('Fideloper\ResourceCache\Resource\Eloquent\Resource');
+        $mockResource->shouldReceive('getEtag')->once()->andReturn( md5("example1") );
+
+        $symReq = new SymfonyRequest( $mockRequest );
+
+        $this->assertTrue( $symReq->wasNotModified($mockResource), 'If-Match ETag does match resources ETag, so was NOT modified. If-Unmodified-Since Ignored.' );
+    }
+
+    /*
+    * No ETag, attempts Unmodified Date (was unmodified)
+    */
+    public function testWasNotModifiedIsUnmodified()
+    {
+        $this->assertTrue( true );
+    }
+
+    /*
+    * No ETag, attempts Unmodified Date (was not unmodified)
+    */
+    public function testWasNotModifiedIsNotUnmodified()
     {
         $this->assertTrue( true );
     }
