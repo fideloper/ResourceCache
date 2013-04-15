@@ -116,7 +116,7 @@ class SymfonyRequest implements RequestInterface {
     *
     * @return array   Array of ETags
     */
-    public function getEtags()
+    protected function getEtags()
     {
         return $this->request->getEtags();
     }
@@ -127,7 +127,7 @@ class SymfonyRequest implements RequestInterface {
     * @param string   HTTP header to retrieve
     * @return mixed   Result of header
     */
-    public function getHeader($header)
+    protected function getHeader($header)
     {
         return $this->request->header($header);
     }
