@@ -1,7 +1,7 @@
-<?php namespace Fideloper\ResourceResponse\Eloquent;
+<?php namespace Fideloper\ResourceCache\Resource\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Fideloper\ResourceResponse\Resource\ResourceInterface;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
 
 class Resource extends Model implements ResourceInterface  {
 
@@ -31,6 +31,7 @@ class Resource extends Model implements ResourceInterface  {
     {
         $etag = $this->getTable() . $this->getKey();
 
+        // Throw exception if not using timestamps?
         if ( $this->usesTimestamps() )
         {
             $datetime = $this->updated_at;
@@ -45,6 +46,26 @@ class Resource extends Model implements ResourceInterface  {
         }
 
         return md5( $etag );
+    }
+
+    /**
+    * Return last updated date
+    *
+    * @return DateTime   Date and Time resource was last updated
+    */
+    public function getLastUpdated()
+    {
+        if ( ! $this->usesTimestamps() )
+        {
+            return false; // Throw Exception?
+        }
+
+        if( is_string($this->updated_at) )
+        {
+            return new \DateTime( '@'.strtotime($this->updated_at) );
+        }
+
+        return $this->updated_at;
     }
 
 }
