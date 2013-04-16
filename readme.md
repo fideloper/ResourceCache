@@ -11,6 +11,8 @@ This package aims to give you cache control. It's goals are:
 3. Help developers learn about HTTP and Caching, a topic which is often ignored
 
 ## Installation
+[![Build Status](https://travis-ci.org/fideloper/ResourceCache.png?branch=master)](https://travis-ci.org/fideloper/ResourceCache)
+
 This is a Composer package, available on Packagist.
 
 To install it, edit your composer.json file and add:
