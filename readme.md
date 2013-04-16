@@ -1,16 +1,16 @@
 # Resource Cache
 
-### The Situation
+## The Situation
 Frameworks don't often give you tools to control HTTP caching, such as setting ETags or Last-Modified dates.
 
-### Goals
+## Goals
 This package aims to give you cache control. It's goals are:
 
 1. Allow Validation Caching (using ETags with If-Match,If-None-Match, Last-Modified with If-Modified, If-Unmodified, and so on)
 2. Allow Expiration Caching (Using Expires, Last-Modified, Cache-Control and possibly Pragma headers)
 3. Help developers learn about HTTP and Caching, a topic which is often ignored
 
-### Installation
+## Installation
 This is a Composer package, available on Packagist.
 
 To install it, edit your composer.json file and add:
@@ -36,13 +36,13 @@ If you are installing this into `Laravel 4`, you then need to add in the Service
 ),
 ```
 
-### Usage
+## Usage
 There are two steps:
 
 1. Implementing the Resource interface (This is done for you if you're using Laravel 4)
 2. Using the ResourceRequest and ResourceResponse classes with your Resource
 
-### Some Explanation
+## Some Explanation
 There are a few types of caching:
 
 1. In-app caching (Memcache, Redis, other memory stores)
