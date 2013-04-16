@@ -102,7 +102,7 @@ class SymfonyRequest implements RequestInterface {
 
         if( $ifUnmodifiedSince && $usesEtags === false )
         {
-            if( strtotime($ifModifiedSince) > $resource->getLastUpdated()->getTimestamp() )
+            if( strtotime($ifUnmodifiedSince) < $resource->getLastUpdated()->getTimestamp() )
             {
                 return false;
             }

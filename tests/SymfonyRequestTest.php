@@ -153,7 +153,18 @@ class SymfonyRequestTest extends TestCase {
     */
     public function testWasNotModifiedIsUnmodified()
     {
-        $this->assertTrue( true );
+        // Mock Request
+        $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-match')->andReturn(false);
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-unmodified-since')->andReturn('3 March 2013');
+
+        // Mock Resource
+        $mockResource = m::Mock('Fideloper\ResourceCache\Resource\Eloquent\Resource');
+        $mockResource->shouldReceive('getLastUpdated')->once()->andReturn( new DateTime('@'.strtotime('1 March 2013')) );
+
+        $symReq = new SymfonyRequest( $mockRequest );
+
+        $this->assertTrue( $symReq->wasNotModified($mockResource), 'Was unmodified since March 3 as it was last modified March 1' );
     }
 
     /*
@@ -161,7 +172,18 @@ class SymfonyRequestTest extends TestCase {
     */
     public function testWasNotModifiedIsNotUnmodified()
     {
-        $this->assertTrue( true );
+        // Mock Request
+        $mockRequest = m::mock('Symfony\Component\HttpFoundation\Request');
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-match')->andReturn(false);
+        $mockRequest->shouldReceive('retrieveItem')->with('headers', 'if-unmodified-since')->andReturn('1 March 2013');
+
+        // Mock Resource
+        $mockResource = m::Mock('Fideloper\ResourceCache\Resource\Eloquent\Resource');
+        $mockResource->shouldReceive('getLastUpdated')->once()->andReturn( new DateTime('@'.strtotime('3 March 2013')) );
+
+        $symReq = new SymfonyRequest( $mockRequest );
+
+        $this->assertFalse( $symReq->wasNotModified($mockResource), 'Was modified after March 1, on March 3, and so "was unmodified" returns false' );
     }
 
 }
