@@ -55,7 +55,7 @@ class SymfonyRequest implements RequestInterface {
 
         if( $ifModifiedSince && $usesEtags === false )
         {
-            if( strtotime($ifModifiedSince) >= strtotime($resource->updated_at) )
+            if( strtotime($ifModifiedSince) >= $resource->getLastUpdated()->getTimestamp() )
             {
                 return false;
             }
@@ -97,12 +97,12 @@ class SymfonyRequest implements RequestInterface {
         }
 
 
-        // Second, Modificatio Date Validation
+        // Second, Modification Date Validation
         $ifUnmodifiedSince = $this->getHeader('if-unmodified-since');
 
         if( $ifUnmodifiedSince && $usesEtags === false )
         {
-            if( strtotime($ifModifiedSince) > strtotime($resource->updated_at) )
+            if( strtotime($ifUnmodifiedSince) < $resource->getLastUpdated()->getTimestamp() )
             {
                 return false;
             }
@@ -118,7 +118,7 @@ class SymfonyRequest implements RequestInterface {
     */
     protected function getEtags()
     {
-        return $this->request->getEtags();
+        return $this->request->getETags();
     }
 
     /**
@@ -129,7 +129,7 @@ class SymfonyRequest implements RequestInterface {
     */
     protected function getHeader($header)
     {
-        return $this->request->header($header);
+        return $this->request->retrieveItem('headers', $header);
     }
 
 }
