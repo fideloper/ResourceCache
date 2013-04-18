@@ -56,6 +56,8 @@ You must implement:
 
 Example implementations can be found [in the wiki](/fideloper/ResourceCache/wiki/Implementation-Explanation).
 
+### Using your Request/Response and Resource classes
+Once you have an implementation put together, you can use them in your controller. You can see examples of that [here](/fideloper/ResourceCache/wiki/Implementation-Explanation#using-resource-responserequest-with-a-resource).
 
 
 ## Some Explanation
