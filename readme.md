@@ -44,6 +44,22 @@ There are two steps:
 1. Implementing the Resource interface (This is done for you if you're using Laravel 4)
 2. Using the ResourceRequest and ResourceResponse classes with your Resource
 
+### Implement a Resource Interface
+This package contains a Request Interface and  Response Interface. These should be implemented to your specific needs.
+For example, for Laravel 4, which uses Symfony Request/Response classes, I've created a Symfony implementation for each.
+
+You must implement:
+
+1. `Fideloper\ResourceCache\Http\ResourceInterface`
+2. `Fideloper\ResourceCache\Http\ResponseInterface`
+3. `Fideloper\ResourceCache\Resource\ResourceInterface`
+
+Example implementations can be found [in the wiki](https://github.com/fideloper/ResourceCache/wiki/Implementation-Explanation).
+
+### Using your Request/Response and Resource classes
+Once you have an implementation put together, you can use them in your controller. You can see examples of that [here](https://github.com/fideloper/ResourceCache/wiki/Implementation-Explanation#using-resource-responserequest-with-a-resource).
+
+
 ## Some Explanation
 There are a few types of caching:
 
