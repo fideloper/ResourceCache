@@ -54,10 +54,10 @@ You must implement:
 2. `Fideloper\ResourceCache\Http\ResponseInterface`
 3. `Fideloper\ResourceCache\Resource\ResourceInterface`
 
-Example implementations can be found [in the wiki](/fideloper/ResourceCache/wiki/Implementation-Explanation).
+Example implementations can be found [in the wiki](https://github.com/fideloper/ResourceCache/wiki/Implementation-Explanation).
 
 ### Using your Request/Response and Resource classes
-Once you have an implementation put together, you can use them in your controller. You can see examples of that [here](/fideloper/ResourceCache/wiki/Implementation-Explanation#using-resource-responserequest-with-a-resource).
+Once you have an implementation put together, you can use them in your controller. You can see examples of that [here](https://github.com/fideloper/ResourceCache/wiki/Implementation-Explanation#using-resource-responserequest-with-a-resource).
 
 
 ## Some Explanation
