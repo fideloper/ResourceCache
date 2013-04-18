@@ -51,6 +51,7 @@ For example, for Laravel 4, which uses Symfony Request/Response classes, I've cr
 Here is an example implementing Request:
 
 ```php
+# An abbreviated version:
 <?php namespace Fideloper\ResourceCache\Http;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -103,10 +104,12 @@ class SymfonyResponse implements ResponseInterface {
 }
 ```
 
-Lastly, a resource must extend our resource, as it needs to have methods for generating ETags and Lost Modified dates.
+Lastly, a resource must implement our `ResourceInterface`, as it needs to have methods for generating ETags and Lost Modified (updated) dates.
 
 Here's an example for Laravel:
+
 ```php
+# An abbreviated version:
 <?php namespace Fideloper\ResourceCache\Resource\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
@@ -129,8 +132,9 @@ class Resource extends Model implements ResourceInterface  {
 
 ### Using Resource Response/Request with a Resource
 
-The above implementations can be used in your controllers. This ties it all together.
-Not pictures is that class `Article` actually extends `Fideloper\ResourceCache\Resource\Eloquent\Resource`, and so isn't explicitly created here with the "new" keyword.
+To tie this all together, we can use the above implementations in our controllers.
+
+> Note: Not pasted here is the class `Article`, which  actually extends `Fideloper\ResourceCache\Resource\Eloquent\Resource`, and so isn't explicitly created in this controller with the "new" keyword.
 
 ```php
 <?php
