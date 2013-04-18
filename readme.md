@@ -56,7 +56,6 @@ You must implement:
 
 Example implementations can be found [in the wiki](/fideloper/ResourceCache/wiki/Implementation-Explanation).
 
-More implementation details will be available in the Wiki.
 
 
 ## Some Explanation
