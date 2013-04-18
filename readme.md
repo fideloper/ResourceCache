@@ -44,6 +44,164 @@ There are two steps:
 1. Implementing the Resource interface (This is done for you if you're using Laravel 4)
 2. Using the ResourceRequest and ResourceResponse classes with your Resource
 
+### Implement a Resource Interface
+This package contains a Request Interface and  Response Interface. These should be implemented to your specific needs.
+For example, for Laravel 4, which uses Symfony Request/Response classes, I've created a Symfony implementation for each.
+
+Here is an example implementing Request:
+
+```php
+<?php namespace Fideloper\ResourceCache\Http;
+
+use Symfony\Component\HttpFoundation\Request;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
+
+class SymfonyRequest implements RequestInterface {
+
+    public function wasModified(ResourceInterface $resource)
+    {
+        // Do stuff
+    }
+
+    public function wasNotModified(ResourceInterface $resource)
+    {
+        // Do stuff
+    }
+
+}
+```
+
+Here is an example implementing Response:
+
+```php
+# An abbreviated version:
+<?php namespace Fideloper\ResourceCache\Http;
+
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
+
+class SymfonyResponse implements ResponseInterface {
+
+    public function asJson(ResourceInterface $resource, $status = 200, array $headers = array())
+    {
+        // Do things
+    }
+
+
+    public function asHtml(ResourceInterface $resource, $output, $status = 200, array $headers = array())
+    {
+       // Do things
+    }
+
+
+    protected function setCache(ResourceInterface $resource, HttpResponse $response)
+    {
+        // Do things
+    }
+
+}
+```
+
+Lastly, a resource must extend our resource, as it needs to have methods for generating ETags and Lost Modified dates.
+
+Here's an example for Laravel:
+```php
+<?php namespace Fideloper\ResourceCache\Resource\Eloquent;
+
+use Illuminate\Database\Eloquent\Model;
+use Fideloper\ResourceCache\Resource\ResourceInterface;
+
+class Resource extends Model implements ResourceInterface  {
+
+    public function getEtag($regen=false)
+    {
+        // Do things
+    }
+
+    public function getLastUpdated()
+    {
+        // Do things
+    }
+
+}
+```
+
+### Using Resource Response/Request with a Resource
+
+The above implementations can be used in your controllers. This ties it all together.
+Not pictures is that class `Article` actually extends `Fideloper\ResourceCache\Resource\Eloquent\Resource`, and so isn't explicitly created here with the "new" keyword.
+
+```php
+<?php
+
+use Fideloper\ResourceCache\Http\RequestInterface;
+use Fideloper\ResourceCache\Http\ResponseInterface;
+
+class SomeController extends BaseController {
+
+    protected $response;
+    protected $request;
+
+    public function __construct(RequestInterface $request, ResponseInterface $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        // This is an instance of Fideloper\ResourceCache\Resource\Eloquent\Resource
+        $article = Article::find($id);
+
+        if( ! $this->request->wasModified($article) )
+        {
+            return Response::json(null, 304);
+        }
+
+        return $this->response::asJson($article);
+    }
+
+}
+```
+
+### If you're using Laravel 4
+This is the most terse if you're using Laravel 4, as the Service Provider gives you some Facades to use. If you are a fan in dependency injection, you may wish to skip the use of Facades. In any case, the same `show` method above would appear like this, with Facades:
+
+```php
+<?php
+
+# No need for "use" statements with Facades being implemented
+
+class ArticleController extends BaseController {
+
+    /**
+     * Display the specified resource.
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $article = Article::find($id);
+
+        if( ! ResourceRequest::wasModified($article) )
+        {
+            return Response::json(null, 304);
+        }
+
+        return ResourceResponse::asJson($article);
+    }
+}
+```
+
+More implementation details will be available in the Wiki.
+
+
 ## Some Explanation
 There are a few types of caching:
 
