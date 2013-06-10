@@ -1,5 +1,9 @@
 # Resource Cache
 
+**Note 1:** This library is functionally similar to Symfony's built-in [Validation Cacheing](http://symfony.com/doc/2.0/book/http_cache.html#index-10) code. Specifically, Symfony handles Conditional GETs. This library also handles Concurrency Control. Both Conditional GETs and Concurrency Control paradigms use ETags or Last-Modified dates.
+
+**Note 2:** I've re-written this library in an implementation I like better. See my [ConditionalRequest](https://github.com/fideloper/ConditionalRequest) library/package. This new package still encapsulates some business logic that Symfony's HttpCache package has, but builds on it a bit. Namely, both have Conditional GET support. ConditionalRequest also includes Concurrency Control using the same paradigms.
+
 ## The Situation
 Frameworks don't often give you tools to control HTTP caching, such as setting ETags or Last-Modified dates.
 
